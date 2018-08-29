@@ -1,0 +1,20 @@
+#include <stdio.h>
+
+double func_test(double);
+
+double midpoint(double a, double b, double (*func)(double));
+
+double simpson_13(double a, double b, double (*func)(double));
+
+double simpson_38(double a, double b, double (*func)(double));
+
+double gauss_quad (double a, double b, int n, double (*func)(double));
+
+
+
+int main(){
+  double answer;
+  
+  answer = midpoint(func_test);
+
+}

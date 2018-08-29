@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+int decimaltobinary(int whole, float dec){
+  int binwhole[1000];
+  int i = 0;
+  while (whole > 0) {
+    // storing remainder in binary array
+    binwhole[i] = whole % 2;
+    whole = whole / 2;
+    i++;
+  }
+  
+  int j = 0;
+  int count = 0;
+  for (j = i - 1; j >= 0; j--){
+    count = binwhole[j];
+    printf("%d", count);
+  }
+  //**************************************************
+  printf("decimal point\n");
+  int h = 0;
+  int bindec[1000];
+  float frac = 1;
+  float bob = 0;
+  int right = 0;
+  while (frac > 0){
+    bob = dec * 2;
+    if (bob >= 1){
+      bindec[h] = 1;
+      frac = bob - 1;
+    }
+    else{
+      bindec[h] = 0;
+      frac = bob;
+    }
+    dec = frac;
+    //   printf("%f\n",frac);
+    right = bindec[h];
+    printf("%d", right);
+    h++;
+  }
+  
+  printf("\n");
+  return count;
+}/*end of function*/
+
+
+int main(){
+  int whole = 11;
+  float dec = .375;
+  decimaltobinary(whole,dec);
+  return 0;
+}/*end main*/

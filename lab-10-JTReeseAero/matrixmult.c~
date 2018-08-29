@@ -1,0 +1,163 @@
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+#include <stdlib.h>
+#include "csv.h"
+
+struct counts {
+  long unsigned fields;
+  long unsigned rows;
+  long unsigned columns;
+};
+
+struct matrix{
+  int r;
+  int c;
+  double **matf;
+};
+
+//*****************function used by csvparse***************************************
+
+void cb1 (void *s, size_t len, void *data) {
+  ((struct counts *)data)->fields++;
+}
+
+void cb2 (int c, void *data) {
+  ((struct counts *)data)->rows++;
+}
+
+void storfield (void *s, size_t len, void *data){
+  struct matrix *mw = ((struct matrix *)data);
+  float v = atof(s);
+  mw->matf[mw->r][mw->c] = v;
+  mw->c++;
+}
+
+void countrow (int c, void *data){
+  struct matrix *mw = ((struct matrix *)data);
+  mw->r++;
+  mw->c = 0;
+}
+//********************cvinfo func****************************
+static int is_space(unsigned char c) {
+  if (c == CSV_SPACE || c == CSV_TAB) return 1;
+  return 0;
+}
+
+static int is_term(unsigned char c) {
+  if (c == CSV_CR || c == CSV_LF) return 1;
+  return 0;
+}
+//*********************my own matrix functions*******************************
+int matrix_print(struct matrix *mw){
+  int r = 0;
+  int c = 0;
+
+  for(r = 0; r<mw->rows; r++){
+    for (c = 0; c<mw->columns; c++){
+      printf("%f ",mw->matf[r][c]);
+    }
+    printf("\n");
+  }
+}
+
+int init_matrix(struct matrix *mw){
+  mw->r = 0;
+  mw->c = 0;
+  mw->matf = NULL;
+
+  return 0; 
+}
+
+int allocate_matrix(int row, int column, struct matrix *mw){
+  mw->r = row;
+  mw->c = column;
+  int i = 0;
+
+  mw->matf = malloc(sizeof(double *) * row);
+  for(i = 0; i < row; ++i){
+    mw->matf[i] = malloc(sizeof(double) * column);
+  }
+
+  return 0;
+}
+
+int free_matrix(struct matrix *mw){
+  int i = 0;
+
+  for(i = 0; i < mw->r; ++i){
+    free(mw->matf[i]);
+  }
+  free(mw->matf);
+  return 0;
+}
+
+int file_read(const char *file, struct matrix *mw){
+  FILE *fp;
+  struct csv_parser p;
+  char buf[1024];
+  size_t bytes_read;
+  unsigned char options = 0;
+  struct counts co = {0, 0};
+
+  if (csv_init(&p, options) != 0) {
+    fprintf(stderr, "Failed to initialize csv parser\n");
+    return 1;
+  }
+  
+  csv_set_space_func(&p, is_space);
+  csv_set_term_func(&p, is_term);
+
+  fp = fopen(file, "rb");
+  if (!fp) {
+    fprintf(stderr, "Failed to open %s: %s\n", file, strerror(errno));
+    return 2;
+  }
+
+  while ((bytes_read=fread(buf, 1, 1024, fp)) > 0) {
+    if (csv_parse(&p, buf, bytes_read, cb1, cb2, &co) != bytes_read) {
+      fprintf(stderr, "Error while parsing file: %s\n", csv_strerror(csv_error(&p)));
+    }
+  }
+
+  csv_fini(&p, cb1, cb2, &co);
+
+  if (ferror(fp)) {
+    fprintf(stderr, "Error while reading file %s\n", file);
+    fclose(fp);
+    return 3;
+  }
+
+  printf("%s: %lu fields, %lu rows\n", file, co.fields, co.rows);
+
+
+  co.columns = co.fields / co.rows;
+
+
+  //I stopped here
+  return 0;
+}
+
+//********************actually reading the matrix***********************
+int main (int argc, int *argv){ 
+
+
+  if (argc != 3) {
+    fprintf(stderr, "Command line input should be 2 csv files only.\n");
+    exit(EXIT_FAILURE);
+  }
+
+  const char *file1 = argv[1];
+  const char *file2 = argv[2];
+  struct matrix matrix1;
+  struct matrix matrix2;
+
+  init_matrix(&matrix1);
+  init_matrix(&matrix2);
+  file_read(file1, &matrix1);
+  file_read(file2, &matrix2);
+  free_matrix(&matrix1);
+  free_matrix(&matrix2);
+ 
+  return 0;
+}//end the current function called main

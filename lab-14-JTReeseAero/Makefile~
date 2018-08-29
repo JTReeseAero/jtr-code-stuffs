@@ -1,0 +1,4 @@
+all: orbit
+
+orbit: test2.c
+	gcc -Wall test2.c -lm -o orbit

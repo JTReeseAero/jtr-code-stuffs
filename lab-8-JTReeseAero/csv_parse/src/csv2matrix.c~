@@ -1,0 +1,38 @@
+for (i = 0; i < argc; i++){
+  if( -f == argc[i]){
+    printf("You have input the float flag");
+  }
+ }
+#include <stdio.h>
+#include <string.h>
+
+int main(int argc, char **argv){
+  
+  int i = 0; //loop variable
+  int flag = 0;
+  
+  // if (argc > 3){
+    // printf("Sorry, that was too many inputs");
+    // return 1;
+    // }
+  
+  for (i = 0; i < argc; i++){
+    // printf ("Argument %d: %s\n", i, argv[i]);
+    if (strcmp(argv[i], "-f") == 0){
+      printf("You have entered a float float\n");
+      flag = 1; //making flag be true
+      if(2 == i){
+	file = argv[3];
+      }
+      else{
+	file = argv[2];
+      }
+    }
+  }
+  
+  if (argc == 2){
+    file = argv[2];
+  }
+  
+  return 0;
+}/*end main*/

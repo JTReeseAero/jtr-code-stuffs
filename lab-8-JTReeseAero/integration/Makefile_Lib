@@ -1,0 +1,5 @@
+all: integration.o 
+     gcc -shared -c integration.o -o integration.so
+integration.o: integration.h integration.c
+     gcc integration.c 
+ 

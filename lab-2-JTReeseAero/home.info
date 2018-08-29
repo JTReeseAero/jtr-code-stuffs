@@ -1,0 +1,2 @@
+The output to finding the home directory right after logging on is /home/jtreese
+This can be done using `cd`

@@ -1,0 +1,22 @@
+\documentclass{article} \usepackage[utf8]{inputenc} \title{AERE 361 Lab 7} \author{Jordan Reese} \date{Due Date: March, 2nd 2018} \begin{document} \maketitle 
+\section{Integrating with Computers} \indent Integration is one of the major pillars of calculus. When first learning integration, we do all the math on paper. 
+Our brain can analytically solve the integral. We know reverse product rule and such. Computer on the other hand do not have the complex thinking power a brain 
+does. Computer are very fast though. This makes up for having lower thinking capacity. Integrating on a computer can be very useful, but we need to address the 
+problem from a different perspective. This perspective is called numerical methods. There are lots of methods, such as Newton-Raphson, and the Gaussian Quad. 
+The methods turn calculus into an equation that needs to be iterated. Well computers are great at doing iterations. This lab focused primarily on using C to 
+write some integration solvers. We had four methods I will go over, Midpoint, Simpson's $1/3$ and $3/8$, rule and the Gaussian Quad. \section{Midpoint} \indent 
+The midpoint technique is fairly simple in nature. We are finding the midpoint of our function and treating that as our height of our rectangles. They theory is 
+the section that gets cut off my the function curve will be made up for by the empty space between rectangles. This is a great approximation for linear systems, 
+but as we start to traverse into my complex curves, it doesn't hold up very well. The coding behind this one was very straight forward. All I did was put the 
+equation for the midpoint method and give it values. The equation is $$\int_{a}^{b} f(x) dx = (b-a)f(\displaystyle \frac{a+b}{2})$$ The time complexity for this 
+one is just 1. The equation only needs its input and it will run just once. \section{Simpson Rule} This is another equation based estimation for integrals. It 
+comes in 2 variants, the 1/3 and the 3/8. This methods shares the same complexity as midpoint. Once it gets the inputs it wants the equation runs once. For this 
+the coding wasn't particularly challenging. Unlike the midpoint method this method will work with all sorts of curves. I was doing some testing and I couldn't 
+find one that it failed on. The equations for 1/3 and 3/8 are below with respect to order. $$\int_{a}^{b} f(x) dx = \displaystyle 
+\frac{b-a}{6}*[f(a)+4f(\frac{a+b}{2})+f(b)]$$ and $$\int_{a}^{b} f(x) dx = \displaystyle\frac{b-a}{8}*[f(a)+3f(\frac{2a+b}{3})+3f(\frac{a+2b}{3})+f(b)]$$ 
+\section{Gaussian Quad} \indent The Gauss Quad is our first iterative method. We will sum to a specified order n. There is a table of w and t values that were 
+provided to us by Dr. Mitra. There is a way to find the values, but I am not sure how to do it, nor did I need to. I struggled a little on this one because we 
+need to put all the values for t and w into arrays. We then had to index those array inside our loop. I struggle to get all of that figured out. This one also 
+has a higher complexity, but it isn't anything too crazy. It loops linearly based on the n input. I also made a terrible terrible mistake. For my arrays I used 
+square brackets instead of curly braces because I was fresh from MatLab.
+\end{document}

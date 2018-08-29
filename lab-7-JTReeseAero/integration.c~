@@ -1,0 +1,18 @@
+#include <stdio.h>
+
+
+
+
+
+double midpoint(a,b,f){
+  (b-a)*f((a+b)/2)
+
+
+}//end midpoint function
+
+double simpson_33
+
+
+
+
+

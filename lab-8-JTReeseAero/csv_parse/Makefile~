@@ -1,0 +1,6 @@
+all: csvfix csvtest csvvalid csvinfo
+csvfix: tools/csvfix.c include/csv.h
+	gcc tools/csvfix.c -lcsv -Iinclude -Llib -o bin/csvfix
+csvtest: csvtest.c libcsv.h
+csvvalid: csvvalid.c libcsv.h
+csvinfo: csvinfo.c libcsv.h 

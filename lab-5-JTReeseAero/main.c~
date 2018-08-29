@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
+
+int is_int(char* x){
+  int i;
+  for (i = 0; i<strlen(x);i++){
+    if(i == 0){
+      if(x[i] == '-' || isdigit(x[i])){
+      }
+      else{
+	return 0;
+      }
+    }
+    else if (!isdigit(x[i])){
+      return 0;
+    }
+  }
+  return 1;
+}
+
+int PrintUsage(){
+  printf("Sorry that input was not an integer betwixt 1 and 100.\n");
+  return 1;
+}/*End PrintUsage Function*/
+
+int main(){
+  int input;
+  char s[100];
+  int matrix[100][100];
+
+  printf("Please input a number betwixt 1 and 100: ")
+  scanf("%s",s);
+  if (!is_int(s)){
+    return PrintUsage();
+  }
+  input = atoi(s);
+  if (input < 1 || input > 100){
+    return PrintUsage();
+  }
+  matrix[][] = (input-1)
+
+  return 0;
+}/*End Main*/

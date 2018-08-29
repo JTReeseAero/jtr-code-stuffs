@@ -1,0 +1,11 @@
+set term png
+set output outfile
+set view map
+set palette rgbformula 7,5,15
+set tic scale 0 
+set cbrange[0:1]
+set xrange[-.5:9.5]
+set yrange[-.5:9.5]
+set dgrid3d
+splot "plot.dat" using 1:2:3 with pm3d
+
